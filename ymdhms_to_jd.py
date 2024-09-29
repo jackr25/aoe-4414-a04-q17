@@ -21,6 +21,20 @@
 import sys 
 import math as m
 from math import trunc
+# functions
+
+def date_to_JD(Y: int,Mo: int,D: int,h: int,m:int,s: float):
+ 
+  JD = D - 32075 \
+   +  int( 1461 * ( Y + 4800 +  int((Mo-14)/12) ) /4) \
+   + int( 367 * ( Mo - 2 - (int((Mo-14)/12) *12 )) / 12) \
+   - int( 3 * int(( Y + 4900 + int((Mo-14)/12)) /100 ) /4 )
+
+  JDmidnight = (JD) - 0.5
+  Dfrac = (s + 60*(m + 60*h))/86400
+  JDfrac = JDmidnight + Dfrac
+
+  return JDfrac
 
 # initialize script arguments
 Y = int(0)
@@ -47,12 +61,5 @@ else:
   exit()
 
 # write script below this line
-inter = (Mo-14)/12
-inter2 = (( ( Y + 4900 + inter )/100 ))
-JD = D - 32075 + 1461 * (( ( Y + 4800 +  inter)/4)) + 367*( (Mo - 2 - (inter *12 )) / 12 )  - 3*( inter2/4 )
-
-JDmidnight = trunc(JD) - 0.5
-Dfrac = (s + 60*(m + 60*h))/86400
-JDfrac = JDmidnight + Dfrac
-
+JDfrac = date_to_JD(Y,Mo,D,h,m,s)
 print(JDfrac)
